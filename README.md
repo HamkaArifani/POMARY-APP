@@ -1,0 +1,6 @@
+# POMARY-APP
+## POMARY adalah aplikasi berbasis mobile yang ditujukan untuk membantu para pemilik usaha melakukan 
+## pencatatan pesanan-pesanan pengguna pada saat mereka membuka preorder. 
+## Fitur yang disediakan oleh POMARY mencakup sistem BREAD untuk pencatatan pesanan, 
+## list pesanan untuk preorder tersebut, pembuatan rekap sesi preorder secara otomatis yang dapat diekspor ke bentuk pdf, 
+## tombol yang langsung menghantarkan pemilik bisnis pada whastapp  
