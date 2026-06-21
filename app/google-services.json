@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "14410136004",
+    "project_id": "pomaryapp",
+    "storage_bucket": "pomaryapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14410136004:android:03858cbb4908d764db4c91",
+        "android_client_info": {
+          "package_name": "com.example.pomaryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBX26NDuYefnGTB-MqcRV1CDOkqjMuwSxk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
