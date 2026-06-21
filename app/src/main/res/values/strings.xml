@@ -1,3 +1,33 @@
 <resources>
-    <string name="app_name">POMARYAPP</string>
+    <string name="app_name">POMARY</string>
+
+    //screens
+    <string name="home">Home</string>
+    <string name="preorder">Preorder</string>
+    <string name="profil">Profil</string>
+
+    //home, preorder
+    <string name="active_preorder">Preorder Aktif:</string>
+    <string name="historyText">Riwayat Pesanan</string>
+
+    //preorder
+    <string name="completed_preorder">Preorder yang Telah Selesai:</string>
+    <string name="production_cost">HPP:</string>
+    <string name="selling_price">Harga Jual:</string>
+    <string name="product_name">Nama Produk:</string>
+    <string name="start_date">Tanggal Mulai:</string>
+    <string name="end_date">Tanggal Berakhir:</string>
+    <string name="preorder_title">Judul Preorder:</string>
+    <string name="clean_profit">Profit Bersih:</string>
+    <string name="gross_profit">Omzet:</string>
+    <string name="total_order">Jumlah Pesanan:</string>
+    <string name="add_order_btn">Tambah Pesanan</string>
+    <string name="preorder_resume_btn">Rangkuman Preorder</string>
+    <string name="export_resume_btn">Ekspor Rangkuman ke PDF</string>
+
+    //profil
+    <string name="profile_name">Nama Pengguna</string>
+    <string name="user_email">Email Pengguna</string>
+    <string name="pin_setting">Pengaturan Pin</string>
+    <string name="chat_template">Template Pesan</string>
 </resources>
