@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.google.firebase.crashlytics)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
-
 }
 
 android {
@@ -62,4 +61,16 @@ dependencies {
     //hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+
+    //firebase
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.firestore)
+    implementation(libs.play.services.auth)
+
+    //GoogleCredentialManager
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+
 }
