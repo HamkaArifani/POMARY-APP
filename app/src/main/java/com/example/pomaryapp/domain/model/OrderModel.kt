@@ -1,4 +1,11 @@
 package com.example.pomaryapp.domain.model
 
-class OrderModel {
-}
+data class OrderModel (
+    val orderId: String,
+    val preorderId: String,
+    val buyerName: String,
+    val buyerPhone: String,
+    val quantity: Int,
+    val note: String?,
+    val createdAt: Long = System.currentTimeMillis()
+)
