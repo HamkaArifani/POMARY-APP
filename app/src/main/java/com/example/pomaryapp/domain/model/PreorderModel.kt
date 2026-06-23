@@ -10,6 +10,7 @@ data class PreorderModel (
     val totalOrders: Int = 0,
     val isCompleted: Boolean = false
 ){
+    val initialCapital: Long = totalCost * totalOrders.toLong()
     val profitPerItem: Long = sellingPrice - totalCost
     val totalGrossProfit: Long = sellingPrice * totalOrders
     val totalCleanProfit: Long = profitPerItem * totalOrders
