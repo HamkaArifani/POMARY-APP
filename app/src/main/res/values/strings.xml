@@ -30,4 +30,5 @@
     <string name="user_email">Email Pengguna</string>
     <string name="pin_setting">Pengaturan Pin</string>
     <string name="chat_template">Template Pesan</string>
+    <string name="username_template">Pemilik Usaha</string>
 </resources>

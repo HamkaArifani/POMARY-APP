@@ -1,4 +1,4 @@
 package com.example.pomaryapp.data.mapper
 
-class PesananMapper {
+class OrderMapper {
 }
