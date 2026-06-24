@@ -25,6 +25,7 @@ import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.jvm.Throws
 
 @Singleton
 class AuthRepositoryImpl @Inject constructor(
@@ -102,6 +103,21 @@ class AuthRepositoryImpl @Inject constructor(
         authPreferences.saveAuthData(uid, session.name, pin, session.messageTemplate)
     }
 
+    override suspend fun updatePin(newPin: String) {
+        try {
+            val uid = auth.currentUser?.uid ?: return
+            firestore.collection(Constants.COLL_USERS)
+                .document(uid)
+                .update("pin", newPin)
+                .await()
+            authPreferences.updatePin(newPin)
+            Timber.d("PIN berhasil diperbarui")
+        }catch (e: Exception){
+            Timber.e(e, "Gagal memperbarui PIN")
+            throw e
+        }
+    }
+
     override suspend fun getPin(): String? = authPreferences.userPin.first()
 
     override suspend fun validatePin(inputPin: String): Boolean = getPin() == inputPin
@@ -115,7 +131,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun updateMessageTemplate(newTemplate: String) {
         val uid = auth.currentUser?.uid ?: return
         firestore.collection(Constants.COLL_USERS).document(uid).update("messageTemplate", newTemplate).await()
-        authPreferences.updatePin(newTemplate)
+        authPreferences.updateTemplate(newTemplate)
     }
 
     override suspend fun logout() {

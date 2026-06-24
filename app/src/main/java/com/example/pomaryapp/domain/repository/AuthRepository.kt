@@ -11,6 +11,7 @@ interface AuthRepository {
     fun isSetupCompleted(): Flow<Boolean>
 
     suspend fun savePin(pin: String)
+    suspend fun updatePin(newPin: String)
     suspend fun getPin(): String?
     suspend fun validatePin(inputPin: String): Boolean
 
