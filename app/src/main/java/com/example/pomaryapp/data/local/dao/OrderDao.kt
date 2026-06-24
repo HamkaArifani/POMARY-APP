@@ -14,6 +14,8 @@ interface OrderDao {
     @Query("SELECT * FROM orders WHERE preorderId = :preorderId")
     fun getOrdersByPreorder(preorderId: String): Flow<List<OrderEntity>>
 
+    @Query("SELECT * FROM orders WHERE preorderId = :preorderId")
+    suspend fun getOrdersByPreorderSync(preorderId: String): List<OrderEntity>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrder(order: OrderEntity)
 

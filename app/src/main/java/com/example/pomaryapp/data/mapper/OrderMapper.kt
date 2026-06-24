@@ -58,3 +58,16 @@ fun OrderEntity.toDto(): OrderDto{
         createdAt = createdAt
     )
 }
+
+fun OrderModel.toDto(): OrderDto{
+    return OrderDto(
+        orderId = orderId,
+        preorderId = preorderId,
+        buyerName = buyerName,
+        buyerPhone = buyerPhone,
+        itemPrice = itemPrice,
+        quantity = quantity,
+        note = note,
+        createdAt = createdAt
+    )
+}

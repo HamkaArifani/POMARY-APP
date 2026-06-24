@@ -12,7 +12,20 @@
           "package_name": "com.example.pomaryapp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "14410136004-rkqqitm50hfufi3uhmgrkb1cp87v55lk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pomaryapp",
+            "certificate_hash": "4b2ba4f4d3cb4b66fec7a4f5974a0f164ca01e45"
+          }
+        },
+        {
+          "client_id": "14410136004-cvbui5101gremc5jla58hlkq1rdjtlg3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBX26NDuYefnGTB-MqcRV1CDOkqjMuwSxk"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14410136004-cvbui5101gremc5jla58hlkq1rdjtlg3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

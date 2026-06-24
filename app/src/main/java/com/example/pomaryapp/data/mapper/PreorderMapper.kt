@@ -55,3 +55,16 @@ fun PreorderEntity.toDto(): PreorderDto{
         isCompleted = isCompleted
     )
 }
+
+fun PreorderModel.toDto(): PreorderDto{
+    return PreorderDto(
+        preorderId = preorderId,
+        title = title,
+        totalCost = totalCost,
+        sellingPrice = sellingPrice,
+        startDate = startDate,
+        endDate = endDate,
+        totalOrders = totalOrders,
+        isCompleted = isCompleted
+    )
+}

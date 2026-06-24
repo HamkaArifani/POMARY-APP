@@ -9,7 +9,9 @@ import com.example.pomaryapp.core.utils.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class AuthPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {

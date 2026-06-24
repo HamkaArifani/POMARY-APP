@@ -15,7 +15,7 @@ object Constants {
 
     const val COLL_USERS = "users"
     const val COLL_PREORDERS = "preorders"
-    const val COLL_ORDERS = "ORDERS"
+    const val COLL_ORDERS = "orders"
 
     const val KEY_MESSAGE_TEMPLATE = "message_template"
     const val DEFAULT_TEMPLATE = "Halo Kak, pesanan Kakak siap diantar ya, apakah sekarang Kakak sedang di rumah?"
