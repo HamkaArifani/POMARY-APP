@@ -4,6 +4,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.pomaryapp.core.utils.Constants
 import kotlinx.coroutines.flow.Flow
@@ -40,6 +42,20 @@ class AuthPreferences @Inject constructor(
             prefs[MESSAGE_TEMPLATE] = messageTemplate
             prefs[SETUP_COMPLETED] = true
         }
+    }
+
+    private val PIN_ATTEMPTS = intPreferencesKey("pin_attempts")
+    private val LOCKOUT_TIME = longPreferencesKey("lockout_time")
+
+    val pinAttempts: Flow<Int> = dataStore.data.map { it[PIN_ATTEMPTS] ?: 0 }
+    val lockoutTime: Flow<Long> = dataStore.data.map { it[LOCKOUT_TIME] ?: 0L }
+
+    suspend fun updatePinAttempts(attempts: Int) {
+        dataStore.edit { it[PIN_ATTEMPTS] = attempts }
+    }
+
+    suspend fun setLockoutTime(timestamp: Long) {
+        dataStore.edit { it[LOCKOUT_TIME] = timestamp }
     }
 
     suspend fun updateTemplate(newTemplate: String){

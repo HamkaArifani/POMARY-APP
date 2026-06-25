@@ -19,4 +19,8 @@ object Constants {
 
     const val KEY_MESSAGE_TEMPLATE = "message_template"
     const val DEFAULT_TEMPLATE = "Halo Kak, pesanan Kakak siap diantar ya, apakah sekarang Kakak sedang di rumah?"
+
+    const val ERROR_CREDENTIAL_MESSAGE = "Tipe kredenial tidak didukung"
+
+    const val ERROR_LOGIN_MESSAGE = "Firebase User null setelah login"
 }
