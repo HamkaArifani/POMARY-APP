@@ -14,7 +14,7 @@ interface AuthRepository {
     suspend fun updatePin(newPin: String)
     suspend fun getPin(): String?
     suspend fun validatePin(inputPin: String): Boolean
-
+    fun getLockoutRemainingTime(): Flow<Long>
     suspend fun updateName(newName: String)
     suspend fun updateMessageTemplate(newTemplate: String)
 

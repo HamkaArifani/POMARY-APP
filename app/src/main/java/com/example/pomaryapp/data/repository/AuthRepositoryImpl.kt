@@ -105,7 +105,48 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun getPin(): String? = authPreferences.userPin.first()
 
-    override suspend fun validatePin(inputPin: String): Boolean = getPin() == inputPin
+    override suspend fun validatePin(inputPin: String): Boolean {
+        val currentTime = System.currentTimeMillis()
+        val lockTime = authPreferences.lockoutTime.first()
+        val attempts = authPreferences.pinAttempts.first()
+
+        if (currentTime - lockTime < 1800000) {
+            Timber.w("Akses ditolak: Masih dalam masa blokir")
+            return false
+        }
+
+        val savedPin = getPin()
+        val isMatch = savedPin == inputPin
+
+        if(isMatch){
+            authPreferences.updatePinAttempts(0)
+            authPreferences.setLockoutTime(0L)
+            Timber.i("PIN Benar: Akses diberikan")
+            return true
+        } else {
+            val newAttempts = attempts + 1
+            authPreferences.updatePinAttempts(newAttempts)
+
+            Timber.w("PIN Salah: Percobaan ke-$newAttempts")
+            if (newAttempts >= 5) {
+                authPreferences.setLockoutTime(currentTime)
+                Timber.e("Akses Diblokir: 5 kali salah. Silakan tunggu 30 menit.")
+            }
+            return false
+        }
+    }
+
+    override fun getLockoutRemainingTime(): Flow<Long> = authPreferences.lockoutTime.map { lockTime->
+        val currentTime = System.currentTimeMillis()
+        val diff = currentTime - lockTime
+        val thirtyMinutes = 1800000L
+
+        if (diff < thirtyMinutes){
+            (thirtyMinutes - diff) / 60000
+        } else{
+            0L
+        }
+    }
 
     override suspend fun updateName(newName: String) {
         val uid = auth.currentUser?.uid ?: return

@@ -6,9 +6,11 @@
     <string name="preorder">Preorder</string>
     <string name="profil">Profil</string>
 
+
+
     //home, preorder
     <string name="active_preorder">Preorder Aktif:</string>
-    <string name="historyText">Riwayat Pesanan</string>
+    <string name="historyText">Riwayat Preorder</string>
 
     //preorder
     <string name="completed_preorder">Preorder yang Telah Selesai:</string>
@@ -31,4 +33,8 @@
     <string name="pin_setting">Pengaturan Pin</string>
     <string name="chat_template">Template Pesan</string>
     <string name="username_template">Pemilik Usaha</string>
+
+    //pin
+    <string name="newPin">Buat Pin</string>
+    <string name="pinDefault">Masukkan Pin</string>
 </resources>
