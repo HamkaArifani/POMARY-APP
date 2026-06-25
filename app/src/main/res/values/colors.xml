@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="auth_background">#2A4DF1</color>
+    <color name="auth_card">#F8F6F6</color>
+    <color name="header_card">#2A4DF1</color>
+    <color name="preorder_card">#2287E0</color>
+    <color name="history_preorder">#76adde</color>
 </resources>
