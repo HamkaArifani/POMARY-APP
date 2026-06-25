@@ -37,4 +37,9 @@
     //pin
     <string name="newPin">Buat Pin</string>
     <string name="pinDefault">Masukkan Pin</string>
+
+    //message
+    <string name="fail_to_login">Login Gagal!</string>
+    <string name="wrong_pin">Pin yang Anda Masukkan Salah!</string>
+    <string name="lockout_msg">Terlalu banyak percobaan. Terkunci %1$d menit.</string>
 </resources>

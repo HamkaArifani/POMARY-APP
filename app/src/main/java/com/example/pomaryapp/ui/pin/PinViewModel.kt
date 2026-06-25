@@ -3,8 +3,11 @@ package com.example.pomaryapp.ui.pin
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pomaryapp.R
+import com.example.pomaryapp.core.utils.StringText
 import com.example.pomaryapp.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -36,7 +39,7 @@ class PinViewModel @Inject constructor(private val authRepository: AuthRepositor
             } else {
                 pinState = pinState.copy(
                     isLoading = false,
-                    error = "PIN yang Anda masukkan salah"
+                    error = StringText.StringResource(R.string.wrong_pin)
                 )
             }
         }
@@ -57,7 +60,7 @@ class PinViewModel @Inject constructor(private val authRepository: AuthRepositor
                 _lockoutMinutes.value = remainingMinutes
                 if (remainingMinutes > 0) {
                     pinState = pinState.copy(
-                        error = "Terlalu banyak percobaan. Terkunci $remainingMinutes menit."
+                        error = StringText.StringResource(resId = R.string.lockout_msg, remainingMinutes)
                     )
                 }
             }

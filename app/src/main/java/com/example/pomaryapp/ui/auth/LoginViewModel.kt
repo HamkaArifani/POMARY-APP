@@ -5,6 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pomaryapp.R
+import com.example.pomaryapp.core.utils.StringText
 import com.example.pomaryapp.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,7 +25,8 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
                     loginState = loginState.copy(isLoading = false, user = user)
                 }
                 .onFailure { e ->
-                    loginState = loginState.copy(isLoading = false, error = e.message ?: "Gagal Login"
+                    loginState = loginState.copy(isLoading = false, error = e.message ?.let { StringText.DynamicString(it)}
+                        ?: StringText.StringResource(R.string.fail_to_login)
                     )
                 }
         }
