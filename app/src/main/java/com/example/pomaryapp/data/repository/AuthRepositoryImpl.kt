@@ -26,14 +26,13 @@ class AuthRepositoryImpl @Inject constructor(
     private val auth: FirebaseAuth,
     private val firestore: FirebaseFirestore,
     private val firestoreSource: FirestoreDataSource,
-    private val authPreferences: AuthPreferences,
-    @ApplicationContext private val context: Context
+    private val authPreferences: AuthPreferences
 ): AuthRepository {
-    override suspend fun signInWithGoogle(): Result<UserModel?> {
+    override suspend fun signInWithGoogle(context: Context): Result<UserModel?> {
         return try{
             Timber.d("Repository: Memulai alur Sign In Google")
 
-            val loginResult = googleAuthSource.getFirebaseUser()
+            val loginResult = googleAuthSource.getFirebaseUser(context)
             val firebaseUser = loginResult.getOrThrow()
 
             val remoteUserDto = firestoreSource.getUser(firebaseUser.uid)
@@ -52,7 +51,8 @@ class AuthRepositoryImpl @Inject constructor(
                     userId = it.userId,
                     name = it.name,
                     pin = it.pin,
-                    messageTemplate = it.messageTemplate
+                    messageTemplate = it.messageTemplate,
+                    hasCompletedSetup = it.hasCompletedSetup
                 )
             }
             Timber.d("Proses Sign In Repository selesai dengan sukses")
@@ -85,7 +85,7 @@ class AuthRepositoryImpl @Inject constructor(
             "hasCompletedSetup" to true
         ))
         val session = getSessionData().first()
-        authPreferences.saveAuthData(uid, session.name, pin, session.messageTemplate)
+        authPreferences.saveAuthData(uid, session.name, pin, session.messageTemplate, hasCompletedSetup = true)
     }
 
     override suspend fun updatePin(newPin: String) {

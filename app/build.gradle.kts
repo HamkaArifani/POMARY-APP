@@ -11,6 +11,10 @@ android {
     namespace = "com.example.pomaryapp"
     compileSdk = 37
 
+    ksp {
+        arg("ksp.allow.version.mismatch", "true")
+    }
+
     defaultConfig {
         applicationId = "com.example.pomaryapp"
         minSdk = 24

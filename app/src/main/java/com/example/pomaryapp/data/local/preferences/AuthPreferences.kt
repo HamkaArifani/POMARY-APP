@@ -34,13 +34,13 @@ class AuthPreferences @Inject constructor(
     val userPin: Flow<String?> = dataStore.data.map { it[USER_PIN] }
     val isSetupCompleted: Flow<Boolean> = dataStore.data.map { it[SETUP_COMPLETED]?: false }
 
-    suspend fun saveAuthData(userId: String, name: String, pin: String, messageTemplate: String) {
+    suspend fun saveAuthData(userId: String, name: String, pin: String, messageTemplate: String, hasCompletedSetup: Boolean) {
         dataStore.edit { prefs->
             prefs[USER_ID] = userId
             prefs[USER_NAME] = name
             prefs[USER_PIN] = pin
             prefs[MESSAGE_TEMPLATE] = messageTemplate
-            prefs[SETUP_COMPLETED] = true
+            prefs[SETUP_COMPLETED] = hasCompletedSetup
         }
     }
 

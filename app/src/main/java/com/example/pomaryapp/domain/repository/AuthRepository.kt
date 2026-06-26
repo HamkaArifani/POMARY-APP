@@ -1,10 +1,11 @@
 package com.example.pomaryapp.domain.repository
 
+import android.content.Context
 import com.example.pomaryapp.domain.model.UserModel
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    suspend fun signInWithGoogle(): Result<UserModel?>
+    suspend fun signInWithGoogle(context: Context): Result<UserModel?>
 
     fun isUserLoggedIn(): Boolean
     fun getSessionData(): Flow<UserModel>

@@ -39,6 +39,9 @@
     <string name="new_pin">Buat Pin</string>
     <string name="pin_default">Masukkan Pin</string>
 
+    //login
+    <string name="login_text">Masuk dengan Akun Google Anda</string>
+
     //message
     <string name="fail_to_login">Login Gagal!</string>
     <string name="wrong_pin">Pin yang Anda Masukkan Salah!</string>

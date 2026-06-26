@@ -1,5 +1,6 @@
 package com.example.pomaryapp.ui.auth
 
+import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,10 +18,10 @@ class LoginViewModel @Inject constructor(private val authRepository: AuthReposit
     var loginState by mutableStateOf(LoginUiState())
         private set
 
-    fun signIn(){
+    fun signIn(context: Context){
         viewModelScope.launch {
             loginState = loginState.copy(isLoading = true)
-            authRepository.signInWithGoogle()
+            authRepository.signInWithGoogle(context)
                 .onSuccess { user ->
                     loginState = loginState.copy(isLoading = false, user = user)
                 }

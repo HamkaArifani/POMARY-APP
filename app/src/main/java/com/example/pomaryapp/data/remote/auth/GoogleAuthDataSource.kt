@@ -6,6 +6,7 @@ import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import com.example.pomaryapp.core.utils.Constants
+import com.example.pomaryapp.core.utils.findActivity
 import com.example.pomaryapp.data.local.preferences.AuthPreferences
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
@@ -20,11 +21,13 @@ import javax.inject.Inject
 class GoogleAuthDataSource @Inject constructor(
     private val auth: FirebaseAuth,
     private val authPreferences: AuthPreferences,
-    private val credentialManager: CredentialManager,
-    @ApplicationContext private val context: Context
+    private val credentialManager: CredentialManager
 ){
-    suspend fun getFirebaseUser(): Result<FirebaseUser> {
+    suspend fun getFirebaseUser(activityContext: Context): Result<FirebaseUser> {
         return try {
+            val activity = activityContext.findActivity()
+                ?: return Result.failure(Exception("Context is not an Activity"))
+
             val googleIdTokenOption = GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
                 .setServerClientId("14410136004-cvbui5101gremc5jla58hlkq1rdjtlg3.apps.googleusercontent.com")
@@ -35,7 +38,7 @@ class GoogleAuthDataSource @Inject constructor(
                 .addCredentialOption(googleIdTokenOption)
                 .build()
 
-            val result = credentialManager.getCredential(context, request)
+            val result = credentialManager.getCredential(activity, request)
             val credential = result.credential
 
             if (credential is CustomCredential && credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
