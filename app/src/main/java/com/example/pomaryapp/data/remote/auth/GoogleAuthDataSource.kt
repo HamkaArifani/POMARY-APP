@@ -1,12 +1,10 @@
 package com.example.pomaryapp.data.remote.auth
 
 import android.content.Context
-import androidx.compose.ui.res.stringResource
 import androidx.credentials.ClearCredentialStateRequest
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
-import com.example.pomaryapp.R
 import com.example.pomaryapp.core.utils.Constants
 import com.example.pomaryapp.data.local.preferences.AuthPreferences
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption

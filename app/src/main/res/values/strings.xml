@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">POMARY</string>
+    <string name="app_about">Aplikasi Pencatatan Preorder</string>
 
     //screens
     <string name="home">Home</string>
@@ -35,11 +36,15 @@
     <string name="username_template">Pemilik Usaha</string>
 
     //pin
-    <string name="newPin">Buat Pin</string>
-    <string name="pinDefault">Masukkan Pin</string>
+    <string name="new_pin">Buat Pin</string>
+    <string name="pin_default">Masukkan Pin</string>
 
     //message
     <string name="fail_to_login">Login Gagal!</string>
     <string name="wrong_pin">Pin yang Anda Masukkan Salah!</string>
     <string name="lockout_msg">Terlalu banyak percobaan. Terkunci %1$d menit.</string>
+    
+    //button
+    <string name="auth_text">Continue With Google</string>
+    <string name="confirmation">Konfirmasi</string>
 </resources>
