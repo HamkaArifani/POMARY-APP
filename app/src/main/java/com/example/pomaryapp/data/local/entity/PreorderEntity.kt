@@ -8,6 +8,7 @@ import androidx.room.PrimaryKey
 data class PreorderEntity (
     @PrimaryKey val preorderId: String,
     val title: String,
+    @ColumnInfo(name = "product_name") val productName: String,
     @ColumnInfo(name = "total_cost") val totalCost: Long,
     @ColumnInfo(name = "selling_price") val sellingPrice: Long,
     @ColumnInfo(name = "start_date") val startDate: Long,

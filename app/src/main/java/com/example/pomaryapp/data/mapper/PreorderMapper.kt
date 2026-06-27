@@ -8,6 +8,7 @@ fun PreorderEntity.toDomain(): PreorderModel{
     return PreorderModel(
         preorderId = preorderId,
         title = title,
+        productName = productName,
         totalCost = totalCost,
         sellingPrice = sellingPrice,
         startDate = startDate,
@@ -21,6 +22,7 @@ fun PreorderModel.toEntity(): PreorderEntity{
     return PreorderEntity(
         preorderId = preorderId,
         title = title,
+        productName = productName,
         totalCost = totalCost,
         sellingPrice = sellingPrice,
         startDate = startDate,
@@ -34,6 +36,7 @@ fun PreorderDto.toEntity(): PreorderEntity{
     return PreorderEntity(
         preorderId = preorderId,
         title = title,
+        productName = productName,
         totalCost = totalCost,
         sellingPrice = sellingPrice,
         startDate = startDate,
@@ -47,6 +50,7 @@ fun PreorderEntity.toDto(): PreorderDto{
     return PreorderDto(
         preorderId = preorderId,
         title = title,
+        productName = productName,
         totalCost = totalCost,
         sellingPrice = sellingPrice,
         startDate = startDate,
@@ -60,6 +64,7 @@ fun PreorderModel.toDto(): PreorderDto{
     return PreorderDto(
         preorderId = preorderId,
         title = title,
+        productName = productName,
         totalCost = totalCost,
         sellingPrice = sellingPrice,
         startDate = startDate,

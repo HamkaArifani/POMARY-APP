@@ -2,6 +2,7 @@ package com.example.pomaryapp.domain.model
 
 data class PreorderModel (
     val preorderId: String,
+    val productName : String,
     val title: String,
     val totalCost: Long,
     val sellingPrice: Long,

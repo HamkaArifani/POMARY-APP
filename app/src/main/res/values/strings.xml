@@ -25,6 +25,7 @@
     <string name="add_order_btn">Tambah Pesanan</string>
     <string name="preorder_resume_btn">Rangkuman Preorder</string>
     <string name="export_resume_btn">PDF Rangkuman</string>
+    <string name="zero_card">Belum Ada Data</string>
 
     //profil
     <string name="profile_name">Nama Pengguna</string>
