@@ -9,6 +9,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.pomaryapp.R
 import com.example.pomaryapp.core.utils.StringText
 import com.example.pomaryapp.domain.repository.AuthRepository
+import com.example.pomaryapp.domain.usecase.auth.CheckSetupStatusUseCase
+import com.example.pomaryapp.domain.usecase.auth.GetLockoutTimeUseCase
+import com.example.pomaryapp.domain.usecase.auth.SavePinUsecase
+import com.example.pomaryapp.domain.usecase.auth.ValidatePinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +20,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class PinViewModel @Inject constructor(private val authRepository: AuthRepository): ViewModel(){
+class PinViewModel @Inject constructor(
+    private val validatePinUseCase: ValidatePinUseCase,
+    private val savePinUsecase: SavePinUsecase,
+    private val getLockoutTimeUseCase: GetLockoutTimeUseCase,
+    private val checkSetupStatusUseCase: CheckSetupStatusUseCase
+): ViewModel(){
     var pinState by mutableStateOf(PinUiState())
         private set
 
@@ -31,7 +40,7 @@ class PinViewModel @Inject constructor(private val authRepository: AuthRepositor
         viewModelScope.launch {
             pinState = pinState.copy(isLoading = true)
 
-            val isValid = authRepository.validatePin(input)
+            val isValid = validatePinUseCase(input)
 
             if (isValid) {
                 pinState = pinState.copy(isLoading = false, isVerified = true)
@@ -48,7 +57,7 @@ class PinViewModel @Inject constructor(private val authRepository: AuthRepositor
     fun createPin(pin: String, onSuccess: () -> Unit) {
         viewModelScope.launch {
             pinState = pinState.copy(isLoading = true)
-            authRepository.savePin(pin)
+            savePinUsecase(pin)
             pinState = pinState.copy(isLoading = false, isVerified = true)
             onSuccess()
         }
@@ -56,7 +65,7 @@ class PinViewModel @Inject constructor(private val authRepository: AuthRepositor
 
     private fun monitorLockout() {
         viewModelScope.launch {
-            authRepository.getLockoutRemainingTime().collect { remainingMinutes ->
+            getLockoutTimeUseCase().collect { remainingMinutes ->
                 _lockoutMinutes.value = remainingMinutes
                 if (remainingMinutes > 0) {
                     pinState = pinState.copy(
@@ -67,6 +76,6 @@ class PinViewModel @Inject constructor(private val authRepository: AuthRepositor
         }
     }
 
-    fun isSetupCompleted() = authRepository.isSetupCompleted()
+    fun isSetupCompleted() = checkSetupStatusUseCase()
 
 }

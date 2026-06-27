@@ -5,7 +5,7 @@
     //screens
     <string name="home">Home</string>
     <string name="preorder">Preorder</string>
-    <string name="profil">Profil</string>
+    <string name="setting">settings</string>
 
     //home, preorder
     <string name="active_preorder">Preorder Aktif</string>

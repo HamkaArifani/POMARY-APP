@@ -9,19 +9,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.pomaryapp.R
 import com.example.pomaryapp.core.utils.StringText
 import com.example.pomaryapp.domain.repository.AuthRepository
+import com.example.pomaryapp.domain.usecase.auth.SignInWithGoogleUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val authRepository: AuthRepository): ViewModel() {
+class LoginViewModel @Inject constructor(private val signInWithGoogleUseCase: SignInWithGoogleUseCase): ViewModel() {
     var loginState by mutableStateOf(LoginUiState())
         private set
 
     fun signIn(context: Context){
         viewModelScope.launch {
             loginState = loginState.copy(isLoading = true)
-            authRepository.signInWithGoogle(context)
+            signInWithGoogleUseCase(context)
                 .onSuccess { user ->
                     loginState = loginState.copy(isLoading = false, user = user)
                 }
