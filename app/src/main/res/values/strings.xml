@@ -7,8 +7,6 @@
     <string name="preorder">Preorder</string>
     <string name="profil">Profil</string>
 
-
-
     //home, preorder
     <string name="active_preorder">Preorder Aktif:</string>
     <string name="historyText">Riwayat Preorder</string>
@@ -26,7 +24,7 @@
     <string name="total_order">Jumlah Pesanan:</string>
     <string name="add_order_btn">Tambah Pesanan</string>
     <string name="preorder_resume_btn">Rangkuman Preorder</string>
-    <string name="export_resume_btn">Ekspor Rangkuman ke PDF</string>
+    <string name="export_resume_btn">PDF Rangkuman</string>
 
     //profil
     <string name="profile_name">Nama Pengguna</string>

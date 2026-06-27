@@ -86,4 +86,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
 
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
+
+    //material
+    implementation(libs.androidx.compose.material.icons.extended)
 }
