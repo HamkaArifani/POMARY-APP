@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -34,11 +35,11 @@ fun PomaryHeader(
     Surface(
         modifier = Modifier.fillMaxWidth(),
         color = colorResource(R.color.header_card),
-        shadowElevation = 8.dp,
-        shape = RoundedCornerShape(bottomStart = 24.dp, bottomEnd = 24.dp)
+        shadowElevation = 8.dp
     ) {
         Row(
             modifier = Modifier
+                .statusBarsPadding()
                 .padding(horizontal = 24.dp, vertical = 16.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -47,7 +48,7 @@ fun PomaryHeader(
             Image(
                 painter = painterResource(R.drawable.headerpomary),
                 contentDescription = null,
-                modifier = Modifier.weight(0.5f),
+                modifier = Modifier.height(40.dp),
                 contentScale = ContentScale.Fit
             )
             Column(

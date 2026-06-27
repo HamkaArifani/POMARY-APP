@@ -26,7 +26,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         val isLoggedIn = authRepository.isUserLoggedIn()
         val startRoute = if (!isLoggedIn) "login" else "pin"
-        enableEdgeToEdge()
         setContent {
             POMARYAPPTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
