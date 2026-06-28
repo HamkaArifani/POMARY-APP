@@ -29,13 +29,13 @@
     <string name="clean_profit">Profit Bersih:</string>
     <string name="gross_profit">Omzet:</string>
     <string name="preorder_resume_btn">Rangkuman Preorder</string>
-    <string name="export_resume_btn">PDF Rangkuman</string>
+    <string name="export_resume_btn">Ekspor PDF</string>
     <string name="detail_about">Detail Preorder</string>
     <string name="select_date_btn">Pilih Rentang Tanggal</string>
     <string name="date_not_selected">Tanggal belum dipilih</string>
     <string name="order_list_title">Daftar Pesanan</string>
     <string name="delete_po">Hapus Preorder</string>
-    <string name="finish_po">Selesaikan Preorder</string>
+    <string name="finish_po">Tutup Preorder</string>
     <string name="initial_capital">Modal Awal:</string>
     <string name="action_recap">Ringkasan</string>
 
@@ -44,6 +44,7 @@
     <string name="buyer_phone">Nomor Hp Pembeli:</string>
     <string name="total_order">Jumlah pesanan:</string>
     <string name="add_order_btn">Tambah Pesanan</string>
+    <string name="edit_order">Edit Pesanan</string>
     <string name="no_orders">Belum Ada Pesanan</string>
 
     //profil

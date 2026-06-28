@@ -8,13 +8,18 @@ import androidx.lifecycle.viewModelScope
 import com.example.pomaryapp.R
 import com.example.pomaryapp.core.utils.StringText
 import com.example.pomaryapp.domain.model.PreorderModel
+import com.example.pomaryapp.domain.usecase.preorder.DeletePreorderUseCase
+import com.example.pomaryapp.domain.usecase.preorder.FinishPreorderUseCase
 import com.example.pomaryapp.domain.usecase.preorder.GetPreorderDetailUseCase
 import com.example.pomaryapp.domain.usecase.preorder.UpsertPreorderUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
 
+@HiltViewModel
 class PreorderFormViewModel @Inject constructor(
+    private val deleteUseCase: DeletePreorderUseCase,
     private val upsertPreorderUseCase: UpsertPreorderUseCase,
     private val getPreorderDetailUseCase: GetPreorderDetailUseCase
 ): ViewModel(){
@@ -25,6 +30,7 @@ class PreorderFormViewModel @Inject constructor(
     var startDate by mutableStateOf<Long?>(null)
     var endDate by mutableStateOf<Long?>(null)
     var isLoading by mutableStateOf(false)
+    var isCompleted by mutableStateOf(false)
 
     fun loadData(id: String) {
         viewModelScope.launch {
@@ -35,6 +41,7 @@ class PreorderFormViewModel @Inject constructor(
                 sellingPrice = it.sellingPrice.toString()
                 startDate = it.startDate
                 endDate = it.endDate
+                isCompleted = it.isCompleted
             }
         }
     }
@@ -52,10 +59,20 @@ class PreorderFormViewModel @Inject constructor(
                 totalCost = hpp.toLongOrNull() ?: 0L,
                 sellingPrice = sellingPrice.toLongOrNull() ?: 0L,
                 startDate = startDate!!,
-                endDate = endDate!!
+                endDate = endDate!!,
+                isCompleted = isCompleted
             )
             upsertPreorderUseCase(model, id != null)
             onSuccess()
+        }
+    }
+
+    fun delete(id: String, onDone: () -> Unit) {
+        viewModelScope.launch {
+            getPreorderDetailUseCase(id)?.let {
+                deleteUseCase(it)
+                onDone()
+            }
         }
     }
 }

@@ -14,6 +14,7 @@ interface PreorderRepository {
     suspend fun deletePreorder(preorder: PreorderModel)
 
     fun getOrdersByPreorderId(preorderId: String): Flow<List<OrderModel>>
+    suspend fun getOrderById(orderId: String): OrderModel?
     suspend fun insertOrder(order: OrderModel)
     suspend fun updateOrder(order: OrderModel)
     suspend fun deleteOrder(order: OrderModel)

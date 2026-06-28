@@ -173,7 +173,7 @@ fun LazyRowContent(
     } else {
         LazyRow(
             contentPadding = PaddingValues(horizontal = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp)
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             items(list) { po ->
                 HomePreorderCard(

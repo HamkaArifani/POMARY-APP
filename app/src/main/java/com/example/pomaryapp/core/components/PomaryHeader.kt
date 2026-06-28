@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -31,6 +32,8 @@ import com.example.pomaryapp.R
 
 @Composable
 fun PomaryHeader(
+    icon: ImageVector = Icons.Default.Settings,
+    iconLabel: String = stringResource(R.string.setting),
     onClick: ()-> Unit
 ) {
     Surface(
@@ -41,7 +44,7 @@ fun PomaryHeader(
         Row(
             modifier = Modifier
                 .statusBarsPadding()
-                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .padding(horizontal = 24.dp, vertical = 24.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -57,13 +60,13 @@ fun PomaryHeader(
                 modifier = Modifier.clickable { onClick() }
             ) {
                 Icon(
-                    imageVector = Icons.Default.Settings,
-                    contentDescription = "Settings",
+                    imageVector = icon,
+                    contentDescription = iconLabel,
                     modifier = Modifier.size(28.dp),
                     tint = Color.White
                 )
                 Text(
-                    text = stringResource(R.string.setting),
+                    text = iconLabel,
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White,
                     fontWeight = FontWeight.Bold

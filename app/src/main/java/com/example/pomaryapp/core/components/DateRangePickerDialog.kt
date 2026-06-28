@@ -18,10 +18,10 @@ import com.example.pomaryapp.R
 fun DateRangePickerDialog(
     state: DateRangePickerState,
     onConfirm: ()-> Unit,
-    onDissmis: ()-> Unit
+    onDismiss: ()-> Unit
 ) {
    DatePickerDialog(
-       onDismissRequest = onDissmis,
+       onDismissRequest = onDismiss,
        confirmButton = {
            TextButton(onClick = onConfirm) {
                Text(stringResource(R.string.save))

@@ -87,6 +87,16 @@ class PreorderRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getOrderById(orderId: String): OrderModel? {
+        return try {
+            val entity = orderDao.getOrderById(orderId)
+            entity?.toDomain()
+        } catch (e: Exception) {
+            Timber.e(e, "Gagal mengambil detail order dengan ID: $orderId")
+            null
+        }
+    }
+
     override suspend fun insertOrder(order: OrderModel) {
         try {
             orderDao.insertOrder(order.toEntity())
