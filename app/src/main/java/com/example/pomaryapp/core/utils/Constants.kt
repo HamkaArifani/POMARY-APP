@@ -2,8 +2,6 @@ package com.example.pomaryapp.core.utils
 
 object Constants {
     const val DATABASE_NAME = "pomary_db"
-    const val TABLE_PREORDER = "preorder_table"
-    const val TABLE_PESANAN = "pesanan_table"
 
     const val DATASTORE_NAME = "pomary_prefs"
     const val KEY_PIN = "user_pin"

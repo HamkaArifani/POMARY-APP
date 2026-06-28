@@ -6,14 +6,18 @@ import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
 
-class LoadDataUseCase @Inject constructor(private val repository: PreorderRepository) {
+class GetActivePreordersUsecase @Inject constructor(private val preorderRepository: PreorderRepository) {
+    operator fun invoke(): Flow<List<PreorderModel>>{
+        return preorderRepository.getActivePreorders()
+        Timber.d("Mengirimkan preoerder aktif!")
+    }
     fun getActivePreorders(): Flow<List<PreorderModel>> {
-        return repository.getActivePreorders()
+        return preorderRepository.getActivePreorders()
         Timber.d("Mengirimkan preoerder aktif!")
     }
 
     fun getCompletedPreorders(): Flow<List<PreorderModel>> {
-        return repository.getCompletedPreorders()
+        return preorderRepository.getCompletedPreorders()
         Timber.d("Mengirimkan preoerder selesai!")
     }
 }

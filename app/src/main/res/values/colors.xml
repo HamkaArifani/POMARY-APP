@@ -13,4 +13,5 @@
     <color name="header_card">#2A4DF1</color>
     <color name="preorder_card">#2287E0</color>
     <color name="history_preorder">#76adde</color>
+    <color name="form_background">#76adde</color>
 </resources>

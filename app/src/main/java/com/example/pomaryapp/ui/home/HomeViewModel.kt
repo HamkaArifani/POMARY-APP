@@ -2,8 +2,8 @@ package com.example.pomaryapp.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.pomaryapp.domain.model.PreorderModel
-import com.example.pomaryapp.domain.usecase.home.LoadDataUseCase
+import com.example.pomaryapp.domain.usecase.home.GetActivePreordersUsecase
+import com.example.pomaryapp.domain.usecase.home.GetCompletedPreordersUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val loadDataUseCase: LoadDataUseCase
+    private val getActivePreordersUsecase: GetActivePreordersUsecase,
+    private val getCompletedPreordersUseCase: GetCompletedPreordersUseCase
 ): ViewModel() {
 
     private val _uiState = MutableStateFlow(HomeUiState(isLoading = true))
@@ -28,8 +29,8 @@ class HomeViewModel @Inject constructor(
 
     private fun loadHomeData(){
         viewModelScope.launch {
-            loadDataUseCase.getActivePreorders()
-                .combine(loadDataUseCase.getCompletedPreorders()){ active, completed ->
+            getActivePreordersUsecase()
+                .combine(getCompletedPreordersUseCase()){ active, completed ->
                     HomeUiState(
                         isLoading = false,
                         activePreorders = active,

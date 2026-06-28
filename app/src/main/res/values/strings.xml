@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">POMARY</string>
     <string name="app_about">Aplikasi Pencatatan Preorder</string>
+    <string name="save">Simpan</string>
+    <string name="delete">Hapus</string>
+    <string name="cancel">Batal</string>
+    <string name="success_save">Data berhasil disimpan</string>
+    <string name="error_empty_fields">Semua langkah harus diisi dengan benar</string>
+
 
     //screens
     <string name="home">Home</string>
@@ -10,9 +16,10 @@
     //home, preorder
     <string name="active_preorder">Preorder Aktif</string>
     <string name="historyText">Riwayat Preorder</string>
+    <string name="completed_preorder">Preorder yang Telah Selesai:</string>
+    <string name="zero_card">Belum Ada Data</string>
 
     //preorder
-    <string name="completed_preorder">Preorder yang Telah Selesai:</string>
     <string name="production_cost">HPP:</string>
     <string name="selling_price">Harga Jual:</string>
     <string name="product_name">Nama Produk:</string>
@@ -21,11 +28,23 @@
     <string name="preorder_title">Judul Preorder:</string>
     <string name="clean_profit">Profit Bersih:</string>
     <string name="gross_profit">Omzet:</string>
-    <string name="total_order">Jumlah Pesanan:</string>
-    <string name="add_order_btn">Tambah Pesanan</string>
     <string name="preorder_resume_btn">Rangkuman Preorder</string>
     <string name="export_resume_btn">PDF Rangkuman</string>
-    <string name="zero_card">Belum Ada Data</string>
+    <string name="detail_about">Detail Preorder</string>
+    <string name="select_date_btn">Pilih Rentang Tanggal</string>
+    <string name="date_not_selected">Tanggal belum dipilih</string>
+    <string name="order_list_title">Daftar Pesanan</string>
+    <string name="delete_po">Hapus Preorder</string>
+    <string name="finish_po">Selesaikan Preorder</string>
+    <string name="initial_capital">Modal Awal:</string>
+    <string name="action_recap">Ringkasan</string>
+
+    //order
+    <string name="buyer_name">Nama Pembeli:</string>
+    <string name="buyer_phone">Nomor Hp Pembeli:</string>
+    <string name="total_order">Jumlah pesanan:</string>
+    <string name="add_order_btn">Tambah Pesanan</string>
+    <string name="no_orders">Belum Ada Pesanan</string>
 
     //profil
     <string name="profile_name">Nama Pengguna</string>
@@ -33,6 +52,15 @@
     <string name="pin_setting">Pengaturan Pin</string>
     <string name="chat_template">Template Pesan</string>
     <string name="username_template">Pemilik Usaha</string>
+
+    //additional
+    <string name="create_po">Buat Preorder</string>
+    <string name="edit_po">Edit Preorder</string>
+    <string name="note_label">Catatan:</string>
+    <string name="step_1">Langkah 1</string>
+    <string name="step_2">Langkah 2</string>
+    <string name="step_3">Langkah 3</string>
+    <string name="okay">OK</string>
 
     //pin
     <string name="new_pin">Buat Pin</string>
