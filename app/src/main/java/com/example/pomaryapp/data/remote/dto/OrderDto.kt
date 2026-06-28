@@ -6,7 +6,7 @@ data class OrderDto (
     val buyerName: String = "",
     val buyerPhone: String = "",
     val itemPrice: Long = 0L,
-    val quantity: Int = 0,
+    val buyerQuantity: Int = 0,
     val note: String? = null,
     val createdAt: Long = 0L
 )

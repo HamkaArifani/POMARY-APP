@@ -31,6 +31,7 @@ class PreorderFormViewModel @Inject constructor(
     var endDate by mutableStateOf<Long?>(null)
     var isLoading by mutableStateOf(false)
     var isCompleted by mutableStateOf(false)
+    private var currentTotalOrders = 0
 
     fun loadData(id: String) {
         viewModelScope.launch {
@@ -42,6 +43,7 @@ class PreorderFormViewModel @Inject constructor(
                 startDate = it.startDate
                 endDate = it.endDate
                 isCompleted = it.isCompleted
+                currentTotalOrders = it.totalOrders
             }
         }
     }
@@ -60,7 +62,8 @@ class PreorderFormViewModel @Inject constructor(
                 sellingPrice = sellingPrice.toLongOrNull() ?: 0L,
                 startDate = startDate!!,
                 endDate = endDate!!,
-                isCompleted = isCompleted
+                isCompleted = isCompleted,
+                totalOrders = currentTotalOrders
             )
             upsertPreorderUseCase(model, id != null)
             onSuccess()

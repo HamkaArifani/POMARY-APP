@@ -14,7 +14,7 @@ fun OrderEntity.toDomain(): OrderModel {
         buyerName = buyerName,
         buyerPhone =  buyerPhone,
         itemPrice = itemPrice,
-        quantity = quantity,
+        buyerQuantity = buyerQuantity,
         note = note,
         createdAt = createdAt
     )
@@ -27,7 +27,7 @@ fun OrderModel.toEntity(): OrderEntity {
         buyerName = buyerName,
         buyerPhone = buyerPhone,
         itemPrice = itemPrice,
-        quantity = quantity,
+        buyerQuantity = buyerQuantity,
         note = note,
         createdAt = createdAt
     )
@@ -40,7 +40,7 @@ fun OrderDto.toEntity(): OrderEntity {
         buyerName = buyerName,
         buyerPhone = buyerPhone,
         itemPrice = itemPrice,
-        quantity = quantity,
+        buyerQuantity = buyerQuantity,
         note = note,
         createdAt = createdAt
     )
@@ -53,7 +53,7 @@ fun OrderEntity.toDto(): OrderDto{
         buyerName = buyerName,
         buyerPhone = buyerPhone,
         itemPrice = itemPrice,
-        quantity = quantity,
+        buyerQuantity = buyerQuantity,
         note = note,
         createdAt = createdAt
     )
@@ -66,7 +66,7 @@ fun OrderModel.toDto(): OrderDto{
         buyerName = buyerName,
         buyerPhone = buyerPhone,
         itemPrice = itemPrice,
-        quantity = quantity,
+        buyerQuantity = buyerQuantity,
         note = note,
         createdAt = createdAt
     )

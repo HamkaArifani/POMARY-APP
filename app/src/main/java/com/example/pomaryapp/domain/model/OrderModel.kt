@@ -6,9 +6,9 @@ data class OrderModel (
     val buyerName: String,
     val buyerPhone: String,
     val itemPrice: Long,
-    val quantity: Int,
+    val buyerQuantity: Int,
     val note: String?,
     val createdAt: Long = System.currentTimeMillis()
 ){
-    val totalPrice : Long = itemPrice * quantity.toLong()
+    val totalPrice : Long = itemPrice * buyerQuantity.toLong()
 }

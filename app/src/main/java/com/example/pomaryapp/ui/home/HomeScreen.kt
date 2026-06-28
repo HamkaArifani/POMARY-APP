@@ -74,18 +74,16 @@ fun HomeScreen(
                 SectionTitle(
                     title = stringResource(R.string.active_preorder),
                     onAddClick = { navController.navigate("preorder_form") },
-                    onSeeAllClick = { navController.navigate("active_list") }
                 )
 
                 LazyRowContent(state.activePreorders, R.color.preorder_card) { poId ->
                     navController.navigate("preorder_detail/$poId")
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                Spacer(modifier = Modifier.height(50.dp))
 
                 SectionTitle(
-                    title = stringResource(R.string.historyText),
-                    onSeeAllClick = { navController.navigate("history_list") }
+                    title = stringResource(R.string.historyText)
                 )
 
                 LazyRowContent(state.completedPreorders, R.color.history_preorder) { poId ->
@@ -100,7 +98,6 @@ fun HomeScreen(
 fun SectionTitle(
     title: String,
     onAddClick: (()-> Unit)? = null,
-    onSeeAllClick: ()-> Unit
 ){
     Row(
         modifier = Modifier
@@ -121,13 +118,6 @@ fun SectionTitle(
                     )
                 }
             }
-
-            Icon(
-                Icons.Default.KeyboardDoubleArrowRight,
-                contentDescription = null,
-                tint = Color.Black,
-                modifier = Modifier.clickable{onSeeAllClick()}
-            )
         }
     }
 }

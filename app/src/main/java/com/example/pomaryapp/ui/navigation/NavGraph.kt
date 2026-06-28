@@ -13,10 +13,8 @@ import com.example.pomaryapp.ui.auth.LoginScreen
 import com.example.pomaryapp.ui.home.HomeScreen
 import com.example.pomaryapp.ui.order.form.OrderFormScreen
 import com.example.pomaryapp.ui.pin.PinScreen
-import com.example.pomaryapp.ui.preorder.active.ActiveListScreen
 import com.example.pomaryapp.ui.preorder.detail.PreorderDetailScreen
 import com.example.pomaryapp.ui.preorder.form.PreorderFormScreen
-import com.example.pomaryapp.ui.preorder.history.HistoryListScreen
 import com.example.pomaryapp.ui.settings.SettingsScreen
 
 @Composable
@@ -58,14 +56,6 @@ fun NavGraph(
 
         composable("settings") {
             SettingsScreen(navController = navController)
-        }
-
-        composable("active_list") {
-            ActiveListScreen(navController = navController)
-        }
-
-        composable("history_list") {
-            HistoryListScreen(navController = navController)
         }
 
         composable(

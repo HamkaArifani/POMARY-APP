@@ -30,6 +30,7 @@ fun PomaryCard(
     ) {
         Column(
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,

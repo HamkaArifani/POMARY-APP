@@ -51,10 +51,12 @@ class PreorderRepositoryImpl @Inject constructor(
     override suspend fun insertPreorder(preorder: PreorderModel) {
         try {
             preorderDao.insertPreorder(preorder.toEntity())
-            userDoc?.collection(Constants.COLL_PREORDERS)
-                ?.document(preorder.preorderId)
-                ?.set(preorder.toDto())?.await()
-        }catch (e: Exception){
+            try {
+                userDoc?.collection(Constants.COLL_PREORDERS)
+                    ?.document(preorder.preorderId)
+                    ?.set(preorder.toDto())
+            } catch (f: Exception) { Timber.w("Firebase Offline") }
+        } catch (e: Exception) {
             Timber.e(e, "Gagal insert preorder")
         }
     }
@@ -62,10 +64,12 @@ class PreorderRepositoryImpl @Inject constructor(
     override suspend fun updatePreorder(preorder: PreorderModel) {
         try {
             preorderDao.updatePreorder(preorder.toEntity())
-            userDoc?.collection(Constants.COLL_PREORDERS)
-                ?.document(preorder.preorderId)
-                ?.set(preorder.toDto())?.await()
-        }catch (e: Exception){
+            try {
+                userDoc?.collection(Constants.COLL_PREORDERS)
+                    ?.document(preorder.preorderId)
+                    ?.set(preorder.toDto())
+            } catch (f: Exception) { Timber.w("Firebase Offline") }
+        } catch (e: Exception) {
             Timber.e(e, "Gagal update preorder")
         }
     }
@@ -75,7 +79,7 @@ class PreorderRepositoryImpl @Inject constructor(
             preorderDao.deletePreorder(preorder.toEntity())
             userDoc?.collection(Constants.COLL_PREORDERS)
                 ?.document(preorder.preorderId)
-                ?.set(preorder.toDto())?.await()
+                ?.delete()
         }catch (e: Exception){
             Timber.e(e, "Gagal delete preorder")
         }
@@ -100,17 +104,28 @@ class PreorderRepositoryImpl @Inject constructor(
     override suspend fun insertOrder(order: OrderModel) {
         try {
             orderDao.insertOrder(order.toEntity())
-            val preorder = preorderDao.getPreorderById(order.preorderId)
-            preorder?.let {
-                val updatedPreorder = it.copy(totalOrders = it.totalOrders + order.quantity)
-                preorderDao.updatePreorder(updatedPreorder)
-                userDoc?.collection(Constants.COLL_PREORDERS)
-                    ?.document(it.preorderId)?.set(updatedPreorder.toDomain().toDto())?.await()
+            val allOrders = orderDao.getOrdersByPreorderSync(order.preorderId)
+            val newTotalQuantity = allOrders.sumOf { it.buyerQuantity }
+            val currentPo = preorderDao.getPreorderById(order.preorderId)
+            currentPo?.let {
+                val updatedPo = it.copy(totalOrders = newTotalQuantity)
+                preorderDao.updatePreorder(updatedPo)
+
+                try {
+                    userDoc?.collection(Constants.COLL_PREORDERS)
+                        ?.document(it.preorderId)
+                        ?.set(updatedPo.toDomain().toDto())
+
+                    userDoc?.collection(Constants.COLL_PREORDERS)
+                        ?.document(order.preorderId)
+                        ?.collection(Constants.COLL_ORDERS)
+                        ?.document(order.orderId)
+                        ?.set(order.toDto())
+                }catch (firebaseError: Exception) {
+                    Timber.w("Firebase Offline: Data tersimpan di lokal saja")
+                    Timber.e(firebaseError)
+                }
             }
-            userDoc?.collection(Constants.COLL_PREORDERS)
-                ?.document(order.orderId)
-                ?.collection(Constants.COLL_ORDERS)
-                ?.document(order.orderId)?.set(order.toDto())?.await()
         }catch (e: Exception){
             Timber.e(e, "Gagal insert order")
         }
@@ -119,21 +134,27 @@ class PreorderRepositoryImpl @Inject constructor(
     override suspend fun updateOrder(order: OrderModel) {
         try {
             orderDao.updateOrder(order.toEntity())
-            val preorderEntity = preorderDao.getPreorderById(order.preorderId)
-            preorderEntity?.let {currentPreorder ->
-                val allOrders = orderDao.getOrdersByPreorderSync(order.preorderId)
-                val newTotalQuantity = allOrders.sumOf { it.quantity }
-                val updatedPreorder = currentPreorder.copy(totalOrders = newTotalQuantity)
-                preorderDao.updatePreorder(updatedPreorder)
-                userDoc?.collection(Constants.COLL_PREORDERS)
-                    ?.document(currentPreorder.preorderId)
-                    ?.set(updatedPreorder.toDomain().toDto())?.await()
+            val allOrders = orderDao.getOrdersByPreorderSync(order.preorderId)
+            val newTotalQuantity = allOrders.sumOf { it.buyerQuantity }
+            val currentPo = preorderDao.getPreorderById(order.preorderId)
+            currentPo?.let {
+                val updatedPo = it.copy(totalOrders = newTotalQuantity)
+                preorderDao.updatePreorder(updatedPo)
+
+                try {
+                    userDoc?.collection(Constants.COLL_PREORDERS)
+                        ?.document(it.preorderId)
+                        ?.set(updatedPo.toDomain().toDto())
+
+                    userDoc?.collection(Constants.COLL_PREORDERS)
+                        ?.document(order.preorderId)
+                        ?.collection(Constants.COLL_ORDERS)
+                        ?.document(order.orderId)
+                        ?.set(order.toDto())
+                } catch (firebaseError: Exception) {
+                    Timber.w("Firebase Offline: Update hanya di lokal")
+                }
             }
-            userDoc?.collection(Constants.COLL_PREORDERS)
-                ?.document(order.preorderId)
-                ?.collection(Constants.COLL_ORDERS)
-                ?.document(order.orderId)
-                ?.set(order.toDto())?.await()
         }catch (e: Exception){
             Timber.e(e, "Gagal update order")
         }
@@ -142,10 +163,21 @@ class PreorderRepositoryImpl @Inject constructor(
     override suspend fun deleteOrder(order: OrderModel) {
         try {
             orderDao.deleteOrder(order.toEntity())
+            val allOrders = orderDao.getOrdersByPreorderSync(order.preorderId)
+            val newTotal = allOrders.sumOf { it.buyerQuantity }
+
+            preorderDao.getPreorderById(order.preorderId)?.let { po ->
+                val updatedPo = po.copy(totalOrders = newTotal)
+                preorderDao.updatePreorder(updatedPo)
+
+                userDoc?.collection(Constants.COLL_PREORDERS)
+                    ?.document(po.preorderId)?.set(updatedPo.toDomain().toDto())
+            }
+
             userDoc?.collection(Constants.COLL_PREORDERS)
                 ?.document(order.preorderId)
                 ?.collection(Constants.COLL_ORDERS)
-                ?.document(order.orderId)?.delete()?.await()
+                ?.document(order.orderId)?.delete()
         } catch (e: Exception) {
             Timber.e(e, "Gagal delete order")
         }

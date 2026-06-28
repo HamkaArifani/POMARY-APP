@@ -24,7 +24,7 @@ class OrderFormViewModel @Inject constructor(
 ): ViewModel() {
     var buyerName by mutableStateOf("")
     var buyerPhone by mutableStateOf("")
-    var quantity by mutableStateOf("")
+    var buyerQuantity by mutableStateOf("")
     var note by mutableStateOf("")
     var itemPrice by mutableStateOf(0L)
 
@@ -33,7 +33,7 @@ class OrderFormViewModel @Inject constructor(
             getOrderDetailUseCase(orderId)?.let {
                 buyerName = it.buyerName
                 buyerPhone = it.buyerPhone
-                quantity = it.quantity.toString()
+                buyerQuantity = it.buyerQuantity.toString()
                 note = it.note ?: ""
                 itemPrice = it.itemPrice
             }
@@ -56,7 +56,7 @@ class OrderFormViewModel @Inject constructor(
                 buyerName = buyerName,
                 buyerPhone = buyerPhone,
                 itemPrice = itemPrice,
-                quantity = quantity.toIntOrNull() ?: 0,
+                buyerQuantity = buyerQuantity.toIntOrNull() ?: 0,
                 note = note
             )
             upsertOrderUseCase(order, isEdit = orderId != null)

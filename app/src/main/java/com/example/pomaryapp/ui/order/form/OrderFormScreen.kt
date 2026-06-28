@@ -82,8 +82,8 @@ fun OrderFormScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             PomaryTextField(
-                value = viewModel.quantity,
-                onValueChange = { viewModel.quantity = it },
+                value = viewModel.buyerQuantity,
+                onValueChange = { viewModel.buyerQuantity = it },
                 label = stringResource(R.string.total_order),
                 keyboardType = KeyboardType.Number
             )

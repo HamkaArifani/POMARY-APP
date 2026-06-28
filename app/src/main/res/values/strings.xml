@@ -5,6 +5,7 @@
     <string name="delete">Hapus</string>
     <string name="cancel">Batal</string>
     <string name="success_save">Data berhasil disimpan</string>
+    <string name="failed_to_save">Data gagal disimpan</string>
     <string name="error_empty_fields">Semua langkah harus diisi dengan benar</string>
 
 

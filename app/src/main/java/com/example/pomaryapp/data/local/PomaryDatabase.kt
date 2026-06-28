@@ -10,7 +10,7 @@ import com.example.pomaryapp.data.local.entity.UserEntity
 
 @Database(
     entities = [UserEntity::class, PreorderEntity::class, OrderEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class PomaryDatabase: RoomDatabase() {

@@ -1,7 +1,10 @@
 package com.example.pomaryapp.data.repository
 
 import android.content.Context
+import androidx.compose.ui.res.stringResource
+import com.example.pomaryapp.R
 import com.example.pomaryapp.core.utils.Constants
+import com.example.pomaryapp.core.utils.StringText
 import com.example.pomaryapp.data.local.preferences.AuthPreferences
 import com.example.pomaryapp.data.mapper.toDomain
 import com.example.pomaryapp.data.mapper.toDto
@@ -14,6 +17,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
@@ -84,8 +88,13 @@ class AuthRepositoryImpl @Inject constructor(
             "pin" to pin,
             "hasCompletedSetup" to true
         ))
-        val session = getSessionData().first()
-        authPreferences.saveAuthData(uid, session.name, pin, session.messageTemplate, hasCompletedSetup = true)
+        val session = getSessionData().firstOrNull()
+        authPreferences.saveAuthData(
+            userId = uid,
+            name = session?.name ?: "",
+            pin = pin,
+            messageTemplate = session?.messageTemplate ?: Constants.DEFAULT_TEMPLATE,
+            hasCompletedSetup = true)
     }
 
     override suspend fun updatePin(newPin: String) {

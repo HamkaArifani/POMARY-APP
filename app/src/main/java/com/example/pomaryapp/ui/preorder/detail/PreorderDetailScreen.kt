@@ -1,5 +1,7 @@
 package com.example.pomaryapp.ui.preorder.detail
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -64,6 +66,16 @@ fun PreorderDetailScreen(
     val userSession by viewModel.userSession.collectAsState()
     val context = LocalContext.current
 
+    val pdfLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CreateDocument("application/pdf")
+    ) { uri ->
+        uri?.let {
+            po?.let { currentPo ->
+                PdfGenerator.export(context, it, currentPo, orders)
+            }
+        }
+    }
+
     LaunchedEffect(Unit) { viewModel.load(preorderId) }
 
     Scaffold(
@@ -101,17 +113,22 @@ fun PreorderDetailScreen(
                         style = MaterialTheme.typography.headlineSmall,
                         color = Color.White,
                         fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.fillMaxWidth()
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "${stringResource(R.string.product_name)} ${data.productName}",
                         color = Color.White,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.fillMaxWidth()
                     )
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = "${stringResource(R.string.total_order)} ${data.totalOrders}",
                         color = Color.White,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.fillMaxWidth()
                     )
                 }
 
@@ -134,7 +151,8 @@ fun PreorderDetailScreen(
                         Icons.Default.PictureAsPdf,
                         stringResource(R.string.export_resume_btn)
                     ) {
-                        PdfGenerator.export(context, data, orders)
+                        val fileName = "${po?.title?.replace(" ", "_") ?: "Preorder"}.pdf"
+                        pdfLauncher.launch(fileName)
                     }
                 }
 
@@ -196,11 +214,13 @@ fun PreorderDetailScreen(
         }
     }
 
-    if (viewModel.showRecapDialog.value && po != null) {
-        RecapDialog(
-            preorder = po!!,
-            onDismiss = { viewModel.showRecapDialog.value = false }
-        )
+    if (viewModel.showRecapDialog.value) {
+        po?.let { dataAman ->
+            RecapDialog(
+                preorder = dataAman,
+                onDismiss = { viewModel.showRecapDialog.value = false }
+            )
+        }
     }
 }
 
@@ -258,7 +278,7 @@ fun OrderListItem(
                     color = Color.White
                 )
                 Text(
-                    text = "Jumlah Pesanan: ${order.quantity}",
+                    text = "Jumlah Pesanan: ${order.buyerQuantity}",
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.White.copy(alpha = 0.8f)
                 )
