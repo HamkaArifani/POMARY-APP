@@ -10,7 +10,11 @@
     <string name="sign_out">Keluar Dari Akun</string>
     <string name="update_pin_succes">PIN Berhasil diganti</string>
     <string name="save_pin">Simpan PIN</string>
-
+    <string name="user_name">Nama Pengguna</string>
+    <string name="safety_session">Keamanan dan Sesi</string>
+    <string name="change_pin">Ubah PIN Keamanan</string>
+    <string name="update_pin_title">Masukkan PIN Baru</string>
+    <string name="update_pin_msg">Masukkan 4 Digit Kode Keamanan Baru Anda.</string>
 
     //screens
     <string name="home">Home</string>

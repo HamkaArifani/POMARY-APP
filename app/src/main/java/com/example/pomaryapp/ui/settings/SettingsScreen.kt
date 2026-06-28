@@ -76,16 +76,16 @@ fun SettingsScreen(
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
-            Text(text = "Akun Pengguna", fontWeight = FontWeight.Bold)
+            Text(text = stringResource(R.string.user_name), fontWeight = FontWeight.Bold)
             PomaryCard {
                 PomaryTextField(
                     value = viewModel.name,
                     onValueChange = { viewModel.name = it },
-                    label = "Nama Pemilik Usaha"
+                    label = stringResource(R.string.username_template)
                 )
             }
 
-            Text(text = "Keamanan & Sesi", fontWeight = FontWeight.Bold)
+            Text(text = stringResource(R.string.safety_session), fontWeight = FontWeight.Bold)
             PomaryCard {
                 Row(
                     modifier = Modifier
@@ -96,7 +96,7 @@ fun SettingsScreen(
                 ) {
                     Icon(Icons.Default.Lock, null, tint = colorResource(R.color.header_card))
                     Spacer(Modifier.width(16.dp))
-                    Text(text = "Ubah PIN Keamanan", modifier = Modifier.weight(1f))
+                    Text(text = stringResource(R.string.pin_setting), modifier = Modifier.weight(1f))
                     Icon(Icons.Default.ChevronRight, null, tint = Color.Gray)
                 }
 
@@ -124,7 +124,7 @@ fun SettingsScreen(
                 PomaryTextField(
                     value = viewModel.messageTemplate,
                     onValueChange = { viewModel.messageTemplate = it },
-                    label = "Pesan Koordinasi Pengantaran",
+                    label = "",
                     singleLine = false,
                     modifier = Modifier.heightIn(min = 100.dp)
                 )
@@ -134,7 +134,7 @@ fun SettingsScreen(
                 text = stringResource(R.string.save),
                 onClick = {
                     viewModel.saveProfile {
-                        Toast.makeText(context, "Berhasil disimpan", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, R.string.success_save, Toast.LENGTH_SHORT).show()
                     }
                 }
             )
@@ -157,17 +157,17 @@ fun SettingsScreen(
                 ) { Text(stringResource(R.string.save_pin)) }
             },
             dismissButton = {
-                TextButton(onClick = { viewModel.showPinDialog = false }) { Text("Batal") }
+                TextButton(onClick = { viewModel.showPinDialog = false }) { Text(stringResource(R.string.cancel)) }
             },
-            title = { Text("Ubah PIN Baru") },
+            title = { Text(stringResource(R.string.update_pin_title)) },
             text = {
                 Column {
-                    Text("Masukkan 4 digit kode keamanan baru kamu.")
+                    Text(stringResource(R.string.update_pin_msg))
                     Spacer(Modifier.height(16.dp))
                     PomaryTextField(
                         value = viewModel.newPinInput,
                         onValueChange = { if(it.length <= 4) viewModel.newPinInput = it },
-                        label = "PIN Baru",
+                        label = "",
                         isPassword = true,
                         keyboardType = KeyboardType.Number
                     )
