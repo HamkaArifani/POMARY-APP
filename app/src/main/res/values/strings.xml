@@ -7,6 +7,9 @@
     <string name="success_save">Data berhasil disimpan</string>
     <string name="failed_to_save">Data gagal disimpan</string>
     <string name="error_empty_fields">Semua langkah harus diisi dengan benar</string>
+    <string name="sign_out">Keluar Dari Akun</string>
+    <string name="update_pin_succes">PIN Berhasil diganti</string>
+    <string name="save_pin">Simpan PIN</string>
 
 
     //screens
