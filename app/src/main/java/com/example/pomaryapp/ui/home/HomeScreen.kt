@@ -147,12 +147,28 @@ fun HomePreorderCard(
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Column {
-                Text(text = stringResource(R.string.total_order), color = Color.White, style = MaterialTheme.typography.labelSmall)
-                Text(text = "${preorder.totalOrders}", color = Color.White, fontWeight = FontWeight.Bold)
+                Text(
+                    text = stringResource(R.string.total_order),
+                    color = Color.White,
+                    style = MaterialTheme.typography.labelSmall
+                )
+                Text(
+                    text = "${preorder.totalOrders} Pesanan",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
             }
             Column(horizontalAlignment = Alignment.End) {
-                Text(text = stringResource(R.string.clean_profit), color = Color.White, style = MaterialTheme.typography.labelSmall)
-                Text(text = preorder.totalCleanProfit.toRupiah(), color = Color.White, fontWeight = FontWeight.Bold)
+                Text(
+                    text = stringResource(R.string.clean_profit),
+                    color = Color.White,
+                    style = MaterialTheme.typography.labelSmall
+                )
+                Text(
+                    text = preorder.totalCleanProfit.toRupiah(),
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }
