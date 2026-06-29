@@ -41,19 +41,6 @@ fun NavGraph(
             LoginScreen(
                 navController = navController,
                 onLoginSuccess = {
-                    val syncRequest = PeriodicWorkRequestBuilder<SyncWorker>(1, TimeUnit.HOURS)
-                        .setConstraints(
-                            Constraints.Builder()
-                                .setRequiredNetworkType(NetworkType.CONNECTED)
-                                .build()
-                        )
-                        .build()
-
-                    WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-                        "SyncWorkerUniqueName",
-                        ExistingPeriodicWorkPolicy.UPDATE,
-                        syncRequest
-                    )
                     navController.navigate("pin"){
                         popUpTo("login") { inclusive = true }
                     }

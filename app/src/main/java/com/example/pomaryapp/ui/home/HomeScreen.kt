@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -65,29 +66,34 @@ fun HomeScreen(
                 CircularProgressIndicator()
             }
         } else{
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .padding(innerPadding)
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
             ) {
-                SectionTitle(
-                    title = stringResource(R.string.active_preorder),
-                    onAddClick = { navController.navigate("preorder_form") },
-                )
-
-                LazyRowContent(state.activePreorders, R.color.preorder_card) { poId ->
-                    navController.navigate("preorder_detail/$poId")
+                item {
+                    SectionTitle(
+                        title = stringResource(R.string.active_preorder),
+                        onAddClick = { navController.navigate("preorder_form") }
+                    )
                 }
 
-                Spacer(modifier = Modifier.height(50.dp))
+                item {
+                    LazyRowContent(state.activePreorders, R.color.preorder_card) { poId ->
+                        navController.navigate("preorder_detail/$poId")
+                    }
+                }
 
-                SectionTitle(
-                    title = stringResource(R.string.historyText)
-                )
+                item { Spacer(modifier = Modifier.height(50.dp)) }
 
-                LazyRowContent(state.completedPreorders, R.color.history_preorder) { poId ->
-                    navController.navigate("preorder_detail/$poId")
+                item {
+                    SectionTitle(title = stringResource(R.string.historyText))
+                }
+
+                item {
+                    LazyRowContent(state.completedPreorders, R.color.history_preorder) { poId ->
+                        navController.navigate("preorder_detail/$poId")
+                    }
                 }
             }
         }
@@ -142,7 +148,7 @@ fun HomePreorderCard(
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Column {
                 Text(text = stringResource(R.string.total_order), color = Color.White, style = MaterialTheme.typography.labelSmall)
-                Text(text = "${preorder.totalOrders} Qty", color = Color.White, fontWeight = FontWeight.Bold)
+                Text(text = "${preorder.totalOrders}", color = Color.White, fontWeight = FontWeight.Bold)
             }
             Column(horizontalAlignment = Alignment.End) {
                 Text(text = stringResource(R.string.clean_profit), color = Color.White, style = MaterialTheme.typography.labelSmall)

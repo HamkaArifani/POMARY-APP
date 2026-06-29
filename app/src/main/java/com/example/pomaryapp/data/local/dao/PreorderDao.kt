@@ -28,4 +28,7 @@ interface PreorderDao {
 
     @Delete
     suspend fun deletePreorder(preorder: PreorderEntity)
+
+    @Query("DELETE FROM preorders WHERE preorderId = :id")
+    suspend fun deletePreorderById(id: String)
 }

@@ -15,8 +15,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Chat
 import androidx.compose.material.icons.filled.AddShoppingCart
@@ -50,6 +52,7 @@ import com.example.pomaryapp.R
 import com.example.pomaryapp.core.components.PomaryButton
 import com.example.pomaryapp.core.components.PomaryCard
 import com.example.pomaryapp.core.components.PomaryHeader
+import com.example.pomaryapp.core.utils.Constants
 import com.example.pomaryapp.core.utils.PdfGenerator
 import com.example.pomaryapp.core.utils.WhatsAppHelper
 import com.example.pomaryapp.core.utils.toRupiah
@@ -92,122 +95,130 @@ fun PreorderDetailScreen(
         }
     ) { padding ->
         po?.let { data ->
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .padding(padding)
                     .fillMaxSize()
                     .padding(16.dp)
             ) {
-                PomaryCard(
-                    containerColor = colorResource(
-                        id = if (data.isCompleted) R.color.history_preorder else R.color.preorder_card
-                    ),
-                    modifier = Modifier
-                        .clickable {
-                        navController.navigate("preorder_form?preorderId=${data.preorderId}")
-                    }
-                        .fillMaxWidth(),
-                ) {
-                    Text(
-                        text = data.title,
-                        style = MaterialTheme.typography.headlineSmall,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "${stringResource(R.string.product_name)} ${data.productName}",
-                        color = Color.White,
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = "${stringResource(R.string.total_order)} ${data.totalOrders}",
-                        color = Color.White,
-                        textAlign = TextAlign.Start,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
-
-                Spacer(modifier = Modifier.height(24.dp))
-
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
-                    DetailActionItem(
-                        Icons.Default.Calculate,
-                        stringResource(R.string.action_recap)
+                item {
+                    PomaryCard(
+                        containerColor = colorResource(
+                            id = if (data.isCompleted) R.color.history_preorder else R.color.preorder_card
+                        ),
+                        modifier = Modifier
+                            .clickable {
+                                navController.navigate("preorder_form?preorderId=${data.preorderId}")
+                            }
+                            .fillMaxWidth(),
                     ) {
-                        viewModel.showRecapDialog.value = true
-                    }
-                    DetailActionItem(
-                        Icons.Default.AddShoppingCart,
-                        stringResource(R.string.add_order_btn)
-                    ) {
-                        navController.navigate("order_form?preorderId=${data.preorderId}")
-                    }
-                    DetailActionItem(
-                        Icons.Default.PictureAsPdf,
-                        stringResource(R.string.export_resume_btn)
-                    ) {
-                        val fileName = "${po?.title?.replace(" ", "_") ?: "Preorder"}.pdf"
-                        pdfLauncher.launch(fileName)
+                        Text(
+                            text = data.title,
+                            style = MaterialTheme.typography.headlineSmall,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "${stringResource(R.string.product_name)} ${data.productName}",
+                            color = Color.White,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = "${stringResource(R.string.total_order)} ${data.totalOrders}",
+                            color = Color.White,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier.fillMaxWidth()
+                        )
                     }
                 }
 
-                Spacer(modifier = Modifier.height(24.dp))
+                item{
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
 
-                if (!data.isCompleted) {
-                    PomaryButton(
-                        text = stringResource(R.string.finish_po),
-                        onClick = { viewModel.finishPo() },
-                        containerColor = Color(0xFF4CAF50)
-                    )
+                item {
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceEvenly) {
+                        DetailActionItem(
+                            Icons.Default.Calculate,
+                            stringResource(R.string.action_recap)
+                        ) {
+                            viewModel.showRecapDialog.value = true
+                        }
+                        DetailActionItem(
+                            Icons.Default.AddShoppingCart,
+                            stringResource(R.string.add_order_btn)
+                        ) {
+                            navController.navigate("order_form?preorderId=${data.preorderId}")
+                        }
+                        DetailActionItem(
+                            Icons.Default.PictureAsPdf,
+                            stringResource(R.string.export_resume_btn)
+                        ) {
+                            val fileName = "${po?.title?.replace(" ", "_") ?: "Preorder"}.pdf"
+                            pdfLauncher.launch(fileName)
+                        }
+                    }
+                }
+
+                item {
+                    Spacer(modifier = Modifier.height(24.dp))
+                }
+
+                item {
+                    if (!data.isCompleted) {
+                        PomaryButton(
+                            text = stringResource(R.string.finish_po),
+                            onClick = { viewModel.finishPo() },
+                            containerColor = Color(0xFF4CAF50)
+                        )
+                        Spacer(modifier = Modifier.height(16.dp))
+                    }
+                }
+
+                item {
+                    HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
                     Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = stringResource(R.string.order_list_title),
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                    )
                 }
-
-                HorizontalDivider(thickness = 1.dp, color = Color.LightGray)
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = stringResource(R.string.order_list_title),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
 
                 if (orders.isEmpty()) {
-                    Text(stringResource(R.string.no_orders), color = Color.Gray, modifier = Modifier.padding(top = 16.dp))
+                    item {
+                        Text(
+                            stringResource(R.string.no_orders),
+                            color = Color.Gray,
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                    }
                 } else {
-                    LazyColumn(
-                        modifier = Modifier.weight(1f),
-                        verticalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        items(orders) { order ->
-                            OrderListItem(
-                                order = order,
-                                isPreorderCompleted = data.isCompleted,
-                                onCardClick = {
-                                    navController.navigate("order_form?preorderId=${data.preorderId}&orderId=${order.orderId}")
-                                },
-                                onChatClick = {
-                                    val rawMessage = userSession?.messageTemplate
-                                    val message = if (!rawMessage.isNullOrBlank()) {
-                                        rawMessage
-                                    } else {
-                                        com.example.pomaryapp.core.utils.Constants.DEFAULT_TEMPLATE
-                                    }
-
-                                    WhatsAppHelper.launchWhatsApp(
-                                        context = context,
-                                        phone = order.buyerPhone,
-                                        text = message
-                                    )
-                                }
-                            )
-                        }
+                    items(orders) { order ->
+                        OrderListItem(
+                            order = order,
+                            isPreorderCompleted = data.isCompleted,
+                            onCardClick = {
+                                navController.navigate("order_form?preorderId=${data.preorderId}&orderId=${order.orderId}")
+                            },
+                            onChatClick = {
+                                val rawMessage = userSession?.messageTemplate
+                                val message = if (!rawMessage.isNullOrBlank()) rawMessage
+                                else Constants.DEFAULT_TEMPLATE
+                                WhatsAppHelper.launchWhatsApp(
+                                    context = context,
+                                    phone = order.buyerPhone,
+                                    text = message
+                                )
+                            }
+                        )
                     }
                 }
             }
@@ -302,4 +313,5 @@ fun OrderListItem(
             }
         }
     }
+    Spacer(modifier = Modifier.height(8.dp))
 }

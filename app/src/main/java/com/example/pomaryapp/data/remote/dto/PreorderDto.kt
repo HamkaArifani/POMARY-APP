@@ -12,5 +12,6 @@ data class PreorderDto (
     val endDate: Long = 0L,
     val totalOrders: Int = 0,
     @get:PropertyName("isCompleted")
-    val isCompleted: Boolean = false
+    @set:PropertyName("isCompleted")
+    var isCompleted: Boolean = false
 )

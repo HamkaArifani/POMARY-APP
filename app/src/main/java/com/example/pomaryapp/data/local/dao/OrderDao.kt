@@ -16,6 +16,9 @@ interface OrderDao {
 
     @Query("SELECT * FROM orders WHERE preorderId = :preorderId")
     suspend fun getOrdersByPreorderSync(preorderId: String): List<OrderEntity>
+
+    @Query("SELECT * FROM orders")
+    suspend fun getAllOrdersSync(): List<OrderEntity>
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertOrder(order: OrderEntity)
 
@@ -24,6 +27,9 @@ interface OrderDao {
 
     @Delete
     suspend fun deleteOrder(order: OrderEntity)
+
+    @Query("DELETE FROM orders WHERE orderId = :id")
+    suspend fun deleteOrderById(id: String)
 
     @Query("SELECT * FROM orders WHERE orderId = :id")
     suspend fun getOrderById(id: String): OrderEntity?

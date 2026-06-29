@@ -191,19 +191,8 @@ class PreorderRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncWithRemote() {
-        Timber.d("SYNC_CHECK: Fungsi syncWithRemote() BARU SAJA DIPANGGIL oleh Worker!")
         try {
-            if (auth.currentUser == null) {
-                Timber.w("SYNC_CHECK: Firebase Auth belum siap, mencoba memuat ulang...")
-            }
-
-            val uid = auth.currentUser?.uid
-            if (uid == null) {
-                Timber.e("SYNC_CHECK: Sinkronisasi gagal karena UID tetap null!")
-                throw IllegalStateException("User belum terautentikasi di background thread")
-            }
-
-            Timber.d("SYNC_CHECK: Mulai mengunduh data Firestore untuk UID: $uid")
+            val uid = auth.currentUser?.uid ?: throw IllegalStateException("User belum terautentikasi")
 
             val remoteData = firestore.collection(Constants.COLL_USERS)
                 .document(uid)
@@ -216,21 +205,39 @@ class PreorderRepositoryImpl @Inject constructor(
                 return
             }
 
+            val remotePreorderIds = mutableSetOf<String>()
+            val remoteOrderIds = mutableSetOf<String>()
+
             remoteData.documents.forEach { doc ->
-                val dto = doc.toObject(PreorderDto::class.java)
-                if (dto != null){
+                val dto = doc.toObject(PreorderDto::class.java) ?: return@forEach
+                remotePreorderIds.add(dto.preorderId)
+
                     preorderDao.insertPreorder(dto.toEntity())
                     Timber.d("SYNC_ORDERS: Memeriksa orderan untuk Preorder ID: ${dto.preorderId}")
 
-                    val remoteOrders = doc.reference.collection(Constants.COLL_ORDERS)
+                    val remoteOrders = doc.reference
+                        .collection(Constants.COLL_ORDERS)
                         .get(Source.SERVER)
                         .await()
 
                     Timber.d("SYNC_ORDERS: Jumlah orderan ditemukan di Firestore = ${remoteOrders.size()}")
-                    remoteOrders.documents.forEach { orderDoc->
-                        val orderDto = orderDoc.toObject(OrderDto::class.java)
-                        orderDto?.let { orderDao.insertOrder(it.toEntity()) }
+                    remoteOrders.documents.forEach orderLoop@{ orderDoc->
+                        val orderDto = orderDoc.toObject(OrderDto::class.java) ?: return@orderLoop
+                        remoteOrderIds.add(orderDto.orderId)
+                        orderDao.insertOrder(orderDto.toEntity())
                     }
+                }
+            val localPreorders = preorderDao.getAllPreordersSync()
+            localPreorders.forEach { local ->
+                if (local.preorderId !in remotePreorderIds) {
+                    preorderDao.deletePreorderById(local.preorderId)
+                }
+            }
+
+            val localOrders = orderDao.getAllOrdersSync()
+            localOrders.forEach { local ->
+                if (local.orderId !in remoteOrderIds) {
+                    orderDao.deleteOrderById(local.orderId)
                 }
             }
             Timber.d("SYNC_CHECK: Sinkronisasi berhasil! ${remoteData.size()} preorder diunduh ke Room.")
