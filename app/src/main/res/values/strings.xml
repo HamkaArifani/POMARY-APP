@@ -86,4 +86,10 @@
     //button
     <string name="auth_text">Continue With Google</string>
     <string name="confirmation">Konfirmasi</string>
+
+    //notification
+    <string name="notif_channel_name">Pengingat Preorder</string>
+    <string name="notif_channel_desc">Pemberitahuan batas waktu dan sinkronisasi data</string>
+    <string name="notif_deadline_title">Batas Waktu Sudah Dekat!</string>
+    <string name="notif_deadline_msg">"%1$s" akan berakhir dalam 1 hari lagi!</string>
 </resources>

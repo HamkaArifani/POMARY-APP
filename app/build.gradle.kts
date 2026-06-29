@@ -89,4 +89,9 @@ dependencies {
 
     //material
     implementation(libs.androidx.compose.material.icons.extended)
+
+    //WorkerManager
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
+    ksp(libs.androidx.hilt.compiler.work)
 }

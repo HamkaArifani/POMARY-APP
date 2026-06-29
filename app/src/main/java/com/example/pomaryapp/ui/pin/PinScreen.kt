@@ -91,7 +91,6 @@ fun PinScreen(
                 onValueChange = {
                     if (it.length <= 4) {
                         pinInput = it
-                        Timber.d("DEBUG_PIN: Input saat ini = $it, Panjang = ${it.length}")
                     }
                 },
                 label = "4 Digit PIN",

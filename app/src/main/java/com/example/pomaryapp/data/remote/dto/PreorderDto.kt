@@ -1,5 +1,7 @@
 package com.example.pomaryapp.data.remote.dto
 
+import com.google.firebase.firestore.PropertyName
+
 data class PreorderDto (
     val preorderId: String = "",
     val productName: String = "",
@@ -9,5 +11,6 @@ data class PreorderDto (
     val startDate: Long = 0L,
     val endDate: Long = 0L,
     val totalOrders: Int = 0,
+    @get:PropertyName("isCompleted")
     val isCompleted: Boolean = false
 )

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PreorderRepository {
     fun getActivePreorders(): Flow<List<PreorderModel>>
+    suspend fun getActivePreordersSync(): List<PreorderModel>
 
     fun getCompletedPreorders(): Flow<List<PreorderModel>>
     suspend fun getPreordersById(id: String): PreorderModel?

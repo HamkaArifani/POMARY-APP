@@ -13,6 +13,7 @@ import com.example.pomaryapp.domain.model.PreorderModel
 import com.example.pomaryapp.domain.repository.PreorderRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -36,6 +37,12 @@ class PreorderRepositoryImpl @Inject constructor(
         return preorderDao.getAllPreorders().map { list->
             list.filter { !it.isCompleted }.map { it.toDomain() }
         }
+    }
+
+    override suspend fun getActivePreordersSync(): List<PreorderModel> {
+        return preorderDao.getAllPreordersSync()
+            .filter { !it.isCompleted }
+            .map { it.toDomain() }
     }
 
     override fun getCompletedPreorders(): Flow<List<PreorderModel>> {
@@ -184,30 +191,52 @@ class PreorderRepositoryImpl @Inject constructor(
     }
 
     override suspend fun syncWithRemote() {
+        Timber.d("SYNC_CHECK: Fungsi syncWithRemote() BARU SAJA DIPANGGIL oleh Worker!")
         try {
-            val uid = auth.currentUser?.uid ?: return
+            if (auth.currentUser == null) {
+                Timber.w("SYNC_CHECK: Firebase Auth belum siap, mencoba memuat ulang...")
+            }
+
+            val uid = auth.currentUser?.uid
+            if (uid == null) {
+                Timber.e("SYNC_CHECK: Sinkronisasi gagal karena UID tetap null!")
+                throw IllegalStateException("User belum terautentikasi di background thread")
+            }
+
+            Timber.d("SYNC_CHECK: Mulai mengunduh data Firestore untuk UID: $uid")
 
             val remoteData = firestore.collection(Constants.COLL_USERS)
                 .document(uid)
                 .collection(Constants.COLL_PREORDERS)
-                .get()
+                .get(Source.SERVER)
                 .await()
+
+            if (remoteData.isEmpty) {
+                Timber.d("SYNC_CHECK: Tidak ada data preorder ditemukan di Firestore.")
+                return
+            }
 
             remoteData.documents.forEach { doc ->
                 val dto = doc.toObject(PreorderDto::class.java)
                 if (dto != null){
                     preorderDao.insertPreorder(dto.toEntity())
+                    Timber.d("SYNC_ORDERS: Memeriksa orderan untuk Preorder ID: ${dto.preorderId}")
 
-                    val remoteOrders = doc.reference.collection(Constants.COLL_ORDERS).get().await()
+                    val remoteOrders = doc.reference.collection(Constants.COLL_ORDERS)
+                        .get(Source.SERVER)
+                        .await()
+
+                    Timber.d("SYNC_ORDERS: Jumlah orderan ditemukan di Firestore = ${remoteOrders.size()}")
                     remoteOrders.documents.forEach { orderDoc->
                         val orderDto = orderDoc.toObject(OrderDto::class.java)
-                        orderDto?. let { orderDao.insertOrder(it.toEntity()) }
+                        orderDto?.let { orderDao.insertOrder(it.toEntity()) }
                     }
                 }
             }
-            Timber.d("Sinkronisasi berhasil: ${remoteData.size()} preorder diunduh.")
-        }catch (e: Exception){
-            Timber.e(e, "Sinkronisasi data gagal!")
+            Timber.d("SYNC_CHECK: Sinkronisasi berhasil! ${remoteData.size()} preorder diunduh ke Room.")
+        } catch (e: Exception) {
+            Timber.e(e, "SYNC_CHECK: Terjadi kesalahan fatal saat sinkronisasi!")
+            throw e
         }
 
     }

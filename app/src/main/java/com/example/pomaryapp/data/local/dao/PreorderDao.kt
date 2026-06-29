@@ -17,6 +17,9 @@ interface PreorderDao {
     @Query("SELECT * FROM preorders WHERE preorderId= :preorderId")
     suspend fun getPreorderById(preorderId: String): PreorderEntity?
 
+    @Query("SELECT * FROM preorders")
+    suspend fun getAllPreordersSync(): List<PreorderEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPreorder(preorder: PreorderEntity)
 

@@ -3,12 +3,19 @@ package com.example.pomaryapp.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.work.Constraints
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.pomaryapp.domain.repository.AuthRepository
+import com.example.pomaryapp.service.worker.SyncWorker
 import com.example.pomaryapp.ui.auth.LoginScreen
 import com.example.pomaryapp.ui.home.HomeScreen
 import com.example.pomaryapp.ui.order.form.OrderFormScreen
@@ -16,6 +23,7 @@ import com.example.pomaryapp.ui.pin.PinScreen
 import com.example.pomaryapp.ui.preorder.detail.PreorderDetailScreen
 import com.example.pomaryapp.ui.preorder.form.PreorderFormScreen
 import com.example.pomaryapp.ui.settings.SettingsScreen
+import java.util.concurrent.TimeUnit
 
 @Composable
 fun NavGraph(
@@ -23,6 +31,7 @@ fun NavGraph(
     navController: NavHostController,
     initialRoute: String
 ) {
+    val context = LocalContext.current
     val isSetupCompleted by authRepository.isSetupCompleted().collectAsState(initial = false)
     NavHost(
         navController = navController,
@@ -32,6 +41,19 @@ fun NavGraph(
             LoginScreen(
                 navController = navController,
                 onLoginSuccess = {
+                    val syncRequest = PeriodicWorkRequestBuilder<SyncWorker>(1, TimeUnit.HOURS)
+                        .setConstraints(
+                            Constraints.Builder()
+                                .setRequiredNetworkType(NetworkType.CONNECTED)
+                                .build()
+                        )
+                        .build()
+
+                    WorkManager.getInstance(context).enqueueUniquePeriodicWork(
+                        "SyncWorkerUniqueName",
+                        ExistingPeriodicWorkPolicy.UPDATE,
+                        syncRequest
+                    )
                     navController.navigate("pin"){
                         popUpTo("login") { inclusive = true }
                     }
