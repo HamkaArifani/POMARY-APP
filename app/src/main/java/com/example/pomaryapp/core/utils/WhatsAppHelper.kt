@@ -7,7 +7,11 @@ import androidx.core.net.toUri
 
 object WhatsAppHelper {
     fun launchWhatsApp(context: Context, phone: String?, text: String){
-        val formattedPhone = phone?.replace("[^0-9]".toRegex(), "") ?: ""
+        var formattedPhone = phone?.replace("[^0-9]".toRegex(), "") ?: ""
+
+        if (formattedPhone.startsWith("0")) {
+            formattedPhone = "62" + formattedPhone.substring(1)
+        }
 
         val uri = "https://api.whatsapp.com/send?phone=$formattedPhone&text=${Uri.encode(text)}".toUri()
         val intent = Intent(Intent.ACTION_VIEW, uri)
