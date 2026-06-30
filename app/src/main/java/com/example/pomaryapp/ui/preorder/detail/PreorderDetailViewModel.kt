@@ -9,6 +9,7 @@ import com.example.pomaryapp.domain.model.OrderModel
 import com.example.pomaryapp.domain.model.PreorderModel
 import com.example.pomaryapp.domain.model.UserModel
 import com.example.pomaryapp.domain.usecase.auth.GetSessionDataUseCase
+import com.example.pomaryapp.domain.usecase.order.GetOrdersRealTimeUseCase
 import com.example.pomaryapp.domain.usecase.order.GetOrdersUseCase
 import com.example.pomaryapp.domain.usecase.preorder.DeletePreorderUseCase
 import com.example.pomaryapp.domain.usecase.preorder.FinishPreorderUseCase
@@ -28,6 +29,7 @@ class PreorderDetailViewModel @Inject constructor(
     private val finishUseCase: FinishPreorderUseCase,
     private val getDetailUseCase: GetPreorderDetailUseCase,
     private val getOrdersUseCase: GetOrdersUseCase,
+    private val getOrdersRealTimeUseCase: GetOrdersRealTimeUseCase,
     private val getSessionDataUseCase: GetSessionDataUseCase
 ): ViewModel(){
     private val _preorder = MutableStateFlow<PreorderModel?>(null)
@@ -44,7 +46,7 @@ class PreorderDetailViewModel @Inject constructor(
     fun load(id: String) {
         viewModelScope.launch {
             _preorder.value = getDetailUseCase(id)
-            getOrdersUseCase(id).collect { _orders.value = it }
+            getOrdersRealTimeUseCase(id).collect { _orders.value = it }
         }
     }
 

@@ -15,8 +15,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Source
 import com.google.firebase.firestore.toObject
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import javax.inject.Inject
@@ -96,6 +99,29 @@ class PreorderRepositoryImpl @Inject constructor(
         return orderDao.getOrdersByPreorder(preorderId).map { list ->
             list.map { it.toDomain() }
         }
+    }
+
+    override fun getOrdersByPreorderIdRealtime(preorderId: String): Flow<List<OrderModel>> = callbackFlow {
+        val uid = auth.currentUser?.uid ?: run { close(); return@callbackFlow }
+        Timber.d("REALTIME: Listener dipasang untuk preorderId=$preorderId uid=$uid")
+
+        val listener = firestore
+            .collection(Constants.COLL_USERS)
+            .document(uid)
+            .collection(Constants.COLL_PREORDERS)
+            .document(preorderId)
+            .collection(Constants.COLL_ORDERS)
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) { close(error); return@addSnapshotListener }
+                snapshot?.let { result ->
+                    val entities = result.documents.mapNotNull { doc ->
+                        doc.toObject(OrderDto::class.java)?.toEntity()
+                    }
+                    launch { entities.forEach { orderDao.insertOrder(it) } }
+                    trySend(entities.map { it.toDomain() })
+                }
+            }
+        awaitClose { listener.remove() }
     }
 
     override suspend fun getOrderById(orderId: String): OrderModel? {
